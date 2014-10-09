@@ -1,42 +1,5 @@
-/*Main title font -- use sparingly*/
-@font-face {
-    font-family: Cinzel;
-    src: url("Resources/Fonts/Cinzel-Regular.otf") format("opentype");
-}
-/*Body & header fonts -- generally use thinner weights except for effect*/
-@font-face {
-    font-family: Brandon;
-    src: url("Resources/Fonts/Brandon_reg.otf") format("opentype");
-}
-@font-face {
-    font-family: Brandon Light;
-    src: url("Resources/Fonts/Brandon_light.otf") format("opentype");
-}
-@font-face {
-    font-family: Brandon Thin;
-    src: url("Resources/Fonts/Brandon_thin.otf") format("opentype");
-}
-@font-face {
-    font-family: Brandon Italic;
-    src: url("Resources/Fonts/Brandon_med_it.otf") format("opentype");
-}
-@font-face {
-    font-family: Brandon Bold;
-    src: url("Resources/Fonts/Brandon_bld.otf") format("opentype");
-}
-@font-face {
-    font-family: Brandon Heavy;
-    src: url("Resources/Fonts/Brandon_blk.otf") format("opentype");
-}
-@font-face {
-    font-family: Console;
-    src: url("Resources/Fonts/Console.ttf") format("truetype");
-}
 @font-face {
     font-family: Bitwise;
     src: url("Resources/Fonts/Bitwise.ttf") format("truetype");
 }
-@font-face {
-    font-family: Wabroye;
-    src: url("Resources/Fonts/Wabroye.otf") format("opentype");
-}
+
