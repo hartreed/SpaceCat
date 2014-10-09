@@ -1,3 +1,9 @@
+/*SPACE CAT*******
+*This sketch sends an 'H' to the serial port when a button is pressed, and an 'L' otherwise.
+*The serial port is then read by a PHP script which checks the most recent input, and passes the value
+*to the browser through JS.
+***************************/
+
 const int btn = 3; //Define the external push button pin
 
 void setup() {
