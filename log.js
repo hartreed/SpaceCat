@@ -1,7 +1,8 @@
-var textArray = new Array();
+//This script prints text content to a display character by character, attempting to emulate an old unix-style console
 
+var textArray = new Array();
 var timer;
-var charDelay = 34;
+var charDelay = 34; //Delay between characters
 var rootDate = "201410"
 var lastResponse; //holds serial char from arduino
 var unprocessed = false;
@@ -13,13 +14,17 @@ var posts = 0;
 function init(){
     //console.log("Hello Space World");
     
-    //setInterval(sendHTTP,1500); //These functions have been disabled for this demo, the space bar is used to proceed instead
+//These functions have been disabled for this demo, the space bar is used to proceed instead
+//Normally they would query the Arduino to see if the button was pressed
+    //setInterval(sendHTTP,1500);
     //setInterval(checkInput,100);
     
     timer = setInterval(writeChar,charDelay); //Write a char to the screen at the appropriate rate, if text is available
     intro(); //Display starting text;
 }
 
+//The splash text - tapOut is a function that sends a string to a buffer so that it can be typed one
+//character at a time
 function intro() {
     tapOut("Captain's Log -- Stardate 201410");
     tapOut(" ");
@@ -29,6 +34,8 @@ function intro() {
     tapOut(" ");
 }
 
+//These posts represent the sections of the narrative, each button press advances to the next log
+//the function transmission is a wrapper for tapOut that formats posts as "Transmissions"
 function post1() {
     console.log("[Section 1]");
     tapOut(" ");
@@ -99,9 +106,13 @@ function post5() {
                  I can hear it scratching at the door, soon we will...[TRANSMISSION TERMINATED]");
 }
 function post6() {
-    corruptedTransmission();
+    corruptedTransmission(); 
+    //A fake, glitched out transmission, was intended to be sprinkled through the narrative but
+    //was ended up only being used once, right before the space cat drops
 }
 
+//This function checks to see if the button (either spacebar or the Arduino-powered button) has been
+//pressed, if it has, it advances to the next log
 function checkInput() {
     console.log("Space should work now?: "+blockComplete);
     if (unprocessed&&blockComplete&&!complete) {
@@ -129,13 +140,15 @@ function checkInput() {
                 post6();
                 break;
             case 7:
-                complete = true;
+                complete = true;//If all posts have been read, the next press will launch SpaceCat
                 break;
             default:
                 break;
         }
     }
 }
+
+//the transmission formatting function
 function transmission(date,text) {
     tapOut(" ");
     tapOut("[BEGIN TRANSMISSION]");
@@ -175,11 +188,12 @@ function sendHTTP() {
 }
 
 function toLog(text) {
-    $("#console").append(text); //Add some the to the log
+    $("#console").append(text); //Add some text to the log
     //console.log($("#console")[0].scrollHeight);
     $("#console").scrollTop($("#console")[0].scrollHeight); //Scroll log to bottom
 }
 
+//The function to add text to the buffer, splits the line into characters, and prepends a line break
 function tapOut(text) {
     //console.log(textArray.length);
     if (textArray.length>0) {
@@ -196,14 +210,16 @@ function tapOut(text) {
     }
 }
 
+//This is the actual function called by the driver, it checks the buffer to see if there is text to print,
+//and if there is it posts a character (or line break) to the screen.
 function writeChar() {
     if (textArray.length>0) {
         toLog(textArray.shift());
         if (textArray.length==0) {
-            blockComplete = true;
-            console.log("Text complete :"+blockComplete);
+            blockComplete = true; //Stop typing, notify the input function that we're done with this log
+            console.log("Text complete :"+blockComplete); 
         }
-    }else if (complete&&!cat) {
+    }else if (complete&&!cat) { //If we've reached the end, deploy the SpaceCat!
                 console.log("WARNING: SPACE CAT INCOMING!!!!");
                 tapOut(" ");
                 tapOut(" ");
@@ -224,6 +240,7 @@ function writeChar() {
     }
 }
 
+//Use an HTTP request to query the Arduino's state
 function setupHttpRequest()
 {
     //Prepare HTTP request
@@ -238,9 +255,6 @@ function setupHttpRequest()
     xmlhttp.onreadystatechange=function()
     {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            //if (xmlhttp.responseText=="H") {
-                //alert("pressed");
-            //}
             lastResponse = xmlhttp.responseText;
             //console.log("Response: "+lastResponse);
             if(blockComplete){processResponse(xmlhttp.responseText.trim())}
